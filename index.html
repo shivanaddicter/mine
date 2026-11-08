@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Hari ❤️ Lithu — Our Little World</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,500&family=Dancing+Script:wght@600;700&family=Noto+Sans+Tamil:wght@400;600&family=Cormorant+Garamond:ital,wght@0,400;1,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- LOADER -->
+<div id="loader">
+  <div class="loader-inner">
+    <div class="loader-heart">❤️</div>
+    <p class="loader-text">Loading our little world…</p>
+    <div class="loader-dots"><span></span><span></span><span></span></div>
+  </div>
+</div>
+
+<!-- BACKGROUND LAYERS -->
+<canvas id="bg"></canvas>
+<canvas id="fx"></canvas>
+
+<!-- PROGRESS BAR -->
+<div id="prog"><i></i></div>
+
+<!-- TOOL BUTTONS -->
+<div id="tools">
+  <button id="mus" aria-label="Music">🎵</button>
+  <button id="fs" aria-label="Fullscreen">⛶</button>
+  <button id="sec" aria-label="Secret">💌</button>
+</div>
+
+<!-- MUSIC -->
+<audio id="aud" loop src="assets/music/song.mp3"></audio>
+
+<!-- SECRET MESSAGE -->
+<div id="secmsg" class="hide">
+  <div class="secret-card">
+    <div class="secret-icon">💌</div>
+    <p>You are my today, my tomorrow and my always.</p>
+    <small>— Hari, forever yours 💗</small>
+    <br><small class="tap-close">(tap anywhere to close)</small>
+  </div>
+</div>
+
+<!-- ========== SCENE 1 — WELCOME ========== -->
+<section class="sc" id="s1">
+  <!-- Slideshow: all 9 photos cycle as background -->
+  <div id="heroSlideshow" class="hero-slideshow"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="monogram">H ❤ L</div>
+    <h1 class="hero-title">Heyyy My Pondatiii…</h1>
+    <p class="hero-sub">Someone created a little magical world just for you ✨</p>
+    <p class="hero-couple">Hari ❤️ Lithu</p>
+    <div class="hero-days" id="heroDays"></div>
+    <button class="btn-elegant" id="enter">
+      <span>Enter My Heart</span>
+      <div class="btn-glow"></div>
+    </button>
+    <div class="slideshow-dots" id="slideshowDots"></div>
+  </div>
+</section>
+
+<!-- ========== SCENE 2 — ROSES ========== -->
+<section class="sc" id="s2">
+  <div class="scene-photo-bg">
+    <img src="assets/images/photo2.jpg" alt="" class="scene-bg-photo"/>
+    <div class="scene-bg-overlay"></div>
+  </div>
+  <div class="scene-content">
+    <h2 class="sec-title">Hari Picked These Roses For You 🌹</h2>
+    <p class="sec-sub">Touch each rose and watch it bloom for you… 🥹</p>
+    <p id="fcount" class="count-badge">0 / 12</p>
+    <div id="flowers"></div>
+    <button class="btn-elegant hide" id="secret">
+      <span>💖 Open Secret Heart</span>
+    </button>
+    <p id="fmsg" class="msg-reveal"></p>
+  </div>
+</section>
+
+<!-- ========== SCENE 3 — CUPID ========== -->
+<section class="sc" id="s3">
+  <div class="scene-photo-bg">
+    <img src="assets/images/photo3.jpg" alt="" class="scene-bg-photo"/>
+    <div class="scene-bg-overlay dark"></div>
+  </div>
+  <div class="scene-content">
+    <h2 class="sec-title">Cupid Shoots My Heart 🏹❤️</h2>
+    <div id="stage">
+      <span id="cupid">👼</span>
+      <span id="arrow">➳</span>
+      <span id="bigheart">❤️</span>
+    </div>
+    <button class="btn-elegant" id="shoot">
+      <span>Shoot My Heart 🏹</span>
+    </button>
+    <p id="hmsg" class="msg-reveal"></p>
+  </div>
+</section>
+
+<!-- ========== SCENE 4 — DEC 23 ========== -->
+<section class="sc" id="s4">
+  <div class="scene-photo-bg">
+    <img src="assets/images/photo4.jpg" alt="" class="scene-bg-photo"/>
+    <div class="scene-bg-overlay"></div>
+  </div>
+  <div class="scene-content">
+    <div class="date-badge"><small>DEC</small><b>23</b></div>
+    <div class="days-together" id="daysTogether"></div>
+    <h2 class="sec-title gold-text">THE DAY MY HEART FOUND YOU 💫</h2>
+    <div class="polaroid-frame">
+      <div class="polaroid-inner">
+        <img id="first" alt="Our first memory" class="polaroid-img"/>
+      </div>
+      <div class="polaroid-caption">Our First Memory ❤️</div>
+    </div>
+    <p id="tw" class="tamil-text"></p>
+    <p id="tw2" class="msg-reveal"></p>
+  </div>
+</section>
+
+<!-- ========== SCENE 5 — MEMORIES GALLERY ========== -->
+<section class="sc" id="s5">
+  <div class="scene-content wide">
+    <h2 class="sec-title">Our Memories 📸</h2>
+    <p class="sec-sub">Every picture holds a piece of our forever ♾️</p>
+    <label class="btn-elegant small">
+      <span>➕ Add Photos</span>
+      <input type="file" id="up" accept="image/*" multiple hidden>
+    </label>
+    <div id="gal"></div>
+  </div>
+</section>
+
+<!-- ========== SCENE 6 — LOVE LETTER ========== -->
+<section class="sc" id="s6">
+  <div class="scene-photo-bg">
+    <img src="assets/images/photo6.jpg" alt="" class="scene-bg-photo"/>
+    <div class="scene-bg-overlay dark"></div>
+  </div>
+  <div class="scene-content">
+    <h2 class="sec-title">A Letter From My Heart 💌</h2>
+    <div id="env">
+      <div class="envelope-flap"></div>
+      <span class="env-icon">💌</span>
+    </div>
+    <button class="btn-elegant" id="open">
+      <span>Open My Heart 💌</span>
+    </button>
+    <div id="letter" class="hide tamil-text"></div>
+  </div>
+</section>
+
+<!-- ========== SCENE 7 — DIWALI ========== -->
+<section class="sc" id="s7">
+  <div class="scene-photo-bg">
+    <img src="assets/images/photo7.jpg" alt="" class="scene-bg-photo"/>
+    <div class="scene-bg-overlay dark"></div>
+  </div>
+  <div class="scene-content">
+    <div id="diyas">🪔 🪔 🪔 🪔 🪔</div>
+    <h1 class="diwali-title">Happy Diwali Di Pondatiii 👻🫣❤️</h1>
+    <p class="sec-sub">Indha Diwali en life la romba special… because you're my favourite light. 🥹❤️</p>
+    <p class="sec-sub">Un smile dhaan enakku daily Diwali. 🪔😘</p>
+    <p class="tap-hint pulse-text">✨ Tap anywhere for fireworks ✨</p>
+  </div>
+</section>
+
+<!-- ========== SCENE 8 — PROPOSAL ========== -->
+<section class="sc" id="s8">
+  <div class="scene-photo-bg">
+    <img src="assets/images/photo8.jpg" alt="" class="scene-bg-photo"/>
+    <div class="scene-bg-overlay proposal-overlay"></div>
+  </div>
+  <div class="scene-content proposal-content">
+    <div id="ring" class="ring-anim">💍</div>
+    <h1 class="proposal-title">Will You Be Mine Forever,<br><span class="proposal-name">My Pondatiii?</span></h1>
+    <p class="proposal-sub">Hari is standing here with a rose and a ring, waiting only for you, Lithu… 🌹💍</p>
+    <div id="yes" class="yes-buttons">
+      <button class="btn-yes yes">YESSS, FOREVER ❤️</button>
+      <button class="btn-yes-alt yes">OF COURSE, MY LOVE 🫣</button>
+    </div>
+    <div id="yay" class="yay-banner hide">
+      <div class="yay-icon">🎊</div>
+      <h2>YAYYY! OUR FOREVER STORY CONTINUES! ❤️♾️</h2>
+    </div>
+  </div>
+</section>
+
+<!-- ========== SCENE 9 — FINALE ========== -->
+<section class="sc" id="s9">
+  <div class="scene-photo-bg">
+    <img src="assets/images/photo9.jpg" alt="" class="scene-bg-photo"/>
+    <div class="scene-bg-overlay dark"></div>
+  </div>
+  <div class="scene-content">
+    <div id="fin" class="finale-wrap"></div>
+    <button class="btn-elegant hide" id="replay">
+      <span>Replay Our Love Story 💗</span>
+    </button>
+  </div>
+</section>
+
+<!-- NEXT BUTTON -->
+<button class="btn-next" id="nx" hidden>Continue ▶</button>
+
+<!-- LIGHTBOX -->
+<div id="lb" class="hide">
+  <span id="lx" class="lb-close">✕</span>
+  <span id="lp" class="lb-nav">‹</span>
+  <div class="lb-img-wrap">
+    <img id="li" alt="">
+    <p id="lc"></p>
+  </div>
+  <span id="ln" class="lb-nav">›</span>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
