@@ -1012,6 +1012,150 @@ canvas { position: fixed; inset: 0; width: 100%; height: 100%; }
 }
 
 /* ============================================================
+   HERO SLIDESHOW
+   ============================================================ */
+.hero-slideshow {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.hero-slide {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 1.6s cubic-bezier(0.4, 0, 0.2, 1);
+  filter: brightness(0.5) saturate(1.15);
+  transform: scale(1.07);
+  animation: slowZoom 28s ease-in-out infinite alternate;
+}
+
+.hero-slide.active {
+  opacity: 1;
+}
+
+/* Slideshow dot indicators */
+.slideshow-dots {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 4px;
+}
+
+.slide-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.35);
+  border: 1px solid rgba(255,255,255,0.5);
+  transition: background 0.4s, transform 0.3s;
+  cursor: pointer;
+}
+
+.slide-dot.active {
+  background: var(--pink);
+  transform: scale(1.4);
+  box-shadow: 0 0 8px var(--pink);
+}
+
+/* ============================================================
+   HERO DAYS COUNTER (Scene 1)
+   ============================================================ */
+.hero-days {
+  font-family: var(--font-elegant);
+  font-style: italic;
+  font-size: 0.95rem;
+  color: rgba(255,255,255,0.7);
+  letter-spacing: 1px;
+}
+
+.hero-days span {
+  color: var(--gold);
+  font-weight: 700;
+  font-style: normal;
+  text-shadow: 0 0 10px var(--gold2);
+}
+
+/* ============================================================
+   DAYS TOGETHER COUNTER (Scene 4)
+   ============================================================ */
+.days-together {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,210,122,0.35);
+  border-radius: 60px;
+  padding: 10px 28px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 24px rgba(255,210,122,0.2);
+  animation: fadeInUp 1s 0.5s both;
+}
+
+.days-num {
+  font-family: var(--font-serif);
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: var(--gold);
+  text-shadow: 0 0 20px var(--gold2);
+  line-height: 1;
+  animation: countUp 2s ease-out;
+}
+
+@keyframes countUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.days-label {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  gap: 2px;
+}
+
+.days-label span:first-child {
+  font-family: var(--font-elegant);
+  font-style: italic;
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.6);
+  letter-spacing: 1px;
+}
+
+.days-label span:last-child {
+  font-family: var(--font-script);
+  font-size: 1rem;
+  color: var(--rg);
+}
+
+/* ============================================================
+   CUSTOM HEART CURSOR (desktop only)
+   ============================================================ */
+@media (pointer: fine) {
+  body { cursor: none; }
+
+  #cursor {
+    position: fixed;
+    top: 0; left: 0;
+    width: 20px;
+    height: 20px;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    font-size: 14px;
+    line-height: 1;
+    transition: transform 0.1s;
+    will-change: transform;
+  }
+
+  /* Restore normal cursor inside buttons, links, inputs */
+  button, a, input, label { cursor: pointer; }
+}
+
+/* ============================================================
    UTILITY / GLOBAL HELPERS
    ============================================================ */
 .hide { display: none !important; }
@@ -1019,12 +1163,20 @@ canvas { position: fixed; inset: 0; width: 100%; height: 100%; }
 /* ============================================================
    RESPONSIVE
    ============================================================ */
-@media (max-width: 480px) {
+@media (max-width: 600px) {
   .sc { padding: 60px 16px 90px; }
   #flowers { grid-template-columns: repeat(4, 1fr); gap: 6px 10px; }
   .rs { width: 60px; height: 100px; }
   .rs .bud { width: 50px; height: 50px; }
   .polaroid-frame { max-width: 80vw; }
+  .days-together { padding: 8px 18px; gap: 10px; }
+  .days-num { font-size: 1.8rem; }
+  #gal { columns: 1; }
+  .yes-buttons { flex-direction: column; }
+}
+
+@media (min-width: 768px) {
+  #gal { columns: 3; }
 }
 
 /* ============================================================

@@ -467,12 +467,131 @@ $('#fs').onclick = () => {
 $('#sec').onclick = () => $('#secmsg').classList.remove('hide');
 $('#secmsg').onclick = () => $('#secmsg').classList.add('hide');
 
-// Gentle cursor hearts (mouse only)
+/* ---- CUSTOM HEART CURSOR ---- */
+(function() {
+  const cur = document.createElement('div');
+  cur.id = 'cursor';
+  cur.textContent = '💗';
+  document.body.append(cur);
+  let cx = -100, cy = -100;
+  document.addEventListener('mousemove', e => {
+    cx = e.clientX; cy = e.clientY;
+    cur.style.left = cx + 'px';
+    cur.style.top  = cy + 'px';
+  });
+  document.addEventListener('mousedown', () => cur.style.transform = 'translate(-50%,-50%) scale(1.5)');
+  document.addEventListener('mouseup',   () => cur.style.transform = 'translate(-50%,-50%) scale(1)');
+})();
+
+// Gentle cursor trail (mouse only)
 addEventListener('pointermove', e => {
-  if (!reduce && e.pointerType === 'mouse' && Math.random() < 0.12) {
+  if (!reduce && e.pointerType === 'mouse' && Math.random() < 0.08) {
     emoji(e.clientX, e.clientY, ['💗'], 1);
   }
 });
+
+/* ---- HERO SLIDESHOW ---- */
+(function() {
+  const container = $('#heroSlideshow');
+  const dotsWrap  = $('#slideshowDots');
+  if (!container) return;
+
+  const photos = PHOTOS.map(p => p.src);
+  let slideIdx = 0, slides = [], dots = [];
+
+  // Build slides
+  photos.forEach((src, i) => {
+    const s = document.createElement('div');
+    s.className = 'hero-slide' + (i === 0 ? ' active' : '');
+    s.style.backgroundImage = `url('${src}')`;
+    container.append(s);
+    slides.push(s);
+
+    const d = document.createElement('div');
+    d.className = 'slide-dot' + (i === 0 ? ' active' : '');
+    d.onclick = () => goSlide(i);
+    dotsWrap.append(d);
+    dots.push(d);
+  });
+
+  function goSlide(n) {
+    slides[slideIdx].classList.remove('active');
+    dots[slideIdx].classList.remove('active');
+    slideIdx = (n + photos.length) % photos.length;
+    slides[slideIdx].classList.add('active');
+    dots[slideIdx].classList.add('active');
+  }
+
+  // Auto-advance every 4 seconds
+  const iv = setInterval(() => {
+    if (cur === 1) goSlide(slideIdx + 1);
+  }, 4000);
+  timers.push(iv);
+})();
+
+/* ---- DAYS TOGETHER COUNTER ---- */
+(function() {
+  // Calculate days since Dec 23 — find the most recent Dec 23 that has passed
+  function getDaysTogether() {
+    const now  = new Date();
+    let year   = now.getFullYear();
+    let start  = new Date(year, 11, 23); // Dec = month 11
+    if (start > now) start = new Date(year - 1, 11, 23);
+    return Math.floor((now - start) / 86400000);
+  }
+
+  const days = getDaysTogether();
+
+  // Scene 4 counter
+  const dt = $('#daysTogether');
+  if (dt) {
+    dt.innerHTML = `
+      <div class="days-num">${days}</div>
+      <div class="days-label">
+        <span>days of love since</span>
+        <span>Dec 23 ❤️</span>
+      </div>`;
+  }
+
+  // Hero mini-counter
+  const hd = $('#heroDays');
+  if (hd) {
+    hd.innerHTML = `Together for <span>${days} beautiful days</span> ❤️`;
+  }
+})();
+
+/* ---- KEYBOARD NAVIGATION ---- */
+document.addEventListener('keydown', e => {
+  // Lightbox keyboard nav
+  const lb = $('#lb');
+  if (!lb.classList.contains('hide')) {
+    if (e.key === 'ArrowRight') openLB(idx + 1);
+    if (e.key === 'ArrowLeft')  openLB(idx - 1);
+    if (e.key === 'Escape')     lb.classList.add('hide');
+    return;
+  }
+  // Scene keyboard nav
+  if (e.key === 'ArrowRight' && !$('#nx').hidden) show(cur + 1);
+});
+
+/* ---- SWIPE TO NAVIGATE SCENES ---- */
+(function() {
+  let tsx = 0, tsy = 0;
+  document.addEventListener('touchstart', e => {
+    tsx = e.touches[0].clientX;
+    tsy = e.touches[0].clientY;
+  }, {passive: true});
+  document.addEventListener('touchend', e => {
+    // Skip if lightbox is open or we're in the gallery/letter scroll area
+    if (!$('#lb').classList.contains('hide')) return;
+    if (e.target.closest('#gal') || e.target.closest('#letter')) return;
+    const dx = e.changedTouches[0].clientX - tsx;
+    const dy = e.changedTouches[0].clientY - tsy;
+    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 55) {
+      if (dx < 0 && !$('#nx').hidden) show(cur + 1); // swipe left = next
+    }
+  }, {passive: true});
+})();
 
 /* ---- BOOT ---- */
 addEventListener('load', () => {
